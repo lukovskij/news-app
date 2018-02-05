@@ -9,18 +9,18 @@ export default(OriginalComponent) => class AccordionDecorator extends ReactCompo
       openAccordionId: null
     }
 
-    this.lastId = null
   }
 
   closeSiblingsAccordionses = ( id ) => {
     return ( ) => {
-
-      if (this.lastId !== id) {
-        this.lastId = id;
-        this.setState({openAccordionId: this.lastId})
-      } else {
-        this.lastId = null
-        this.setState({openAccordionId: null})
+      if(this.state.openAccordionId === id){
+        this.setState({
+          openAccordionId : null
+        })
+      }else{
+        this.setState({
+          openAccordionId : id
+        })
       }
     }
   }
