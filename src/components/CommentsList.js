@@ -3,12 +3,16 @@ import Comment from './Comment'
 
 export default class CommentsList extends Component {
 
+  static defaultProps = {
+    comments : []
+  }
+
   state = {
     isShowComments : false
   }
 
   showBtn(commentsList) {
-    if (commentsList) {
+    if (commentsList.length != 0) {
       return <button onClick={this.handleToggleComments}>{this.state.isShowComments ? 'Hide comments' : 'Show comments'}</button>
     }
     return null
@@ -18,7 +22,10 @@ export default class CommentsList extends Component {
     if(this.state.isShowComments){
       return (
         <ul>
-          {comments}
+          {
+            comments
+            .map(item => <li key={item.id}><Comment comment={item}/></li>)
+          }
         </ul>
       )
     }
@@ -32,17 +39,13 @@ export default class CommentsList extends Component {
   }
 
   render() {
-    const commentsList = this.props.comments ?
-    this.props.comments.map(item => <li key={item.key}><Comment comment={item}/></li>) : 
-    undefined
-
     return (
       <section>
         {
-          this.showBtn(commentsList)
+          this.showBtn(this.props.comments)
         }
         {
-            this.toggleComments(commentsList)
+            this.toggleComments(this.props.comments)
         }
       </section>
     )
