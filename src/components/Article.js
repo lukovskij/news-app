@@ -1,10 +1,13 @@
 import React, {Component} from 'react'
 import CommentsList from './CommentsList'
 
-import toggleComponent from '../decorators/toggleComponent'
+// porop types
+import PropTypes from 'prop-types'
 
 function handleToggleArticle(props) {
-  props.handleToggle()
+  return function(){
+    props.closeSiblingsAccordionses(props.id)
+  }
 }
 
 function toggleArticle(article, props) {
@@ -18,13 +21,13 @@ function toggleArticle(article, props) {
 }
 
 function Article(props) {
-  const {article} = props
+  const { article } = props
   return (
     <article>
     <h2>
       {article.title}
     </h2>
-    <button onClick={ handleToggleArticle.bind(this, props) }>
+    <button onClick={ handleToggleArticle(props) }>
       {
         props.isOpen
           ? 'Close'
@@ -35,5 +38,8 @@ function Article(props) {
   </article>
 )
 }
+Article.propTypes = {
+  article : PropTypes.object
+}
 
-export default toggleComponent(Article)
+export default Article
