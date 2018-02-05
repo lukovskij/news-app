@@ -1,25 +1,28 @@
 import React, {Component} from 'react'
 import Comment from './Comment'
 
-export default class CommentsList extends Component {
+import toggleComponent from '../decorators/toggleComponent'
+
+class CommentsList extends Component {
 
   static defaultProps = {
     comments : []
   }
 
-  state = {
-    isShowComments : false
-  }
-
   showBtn(commentsList) {
     if (commentsList.length != 0) {
-      return <button onClick={this.handleToggleComments}>{this.state.isShowComments ? 'Hide comments' : 'Show comments'}</button>
+      return <button onClick={this.handleToggleComments}>{this.props.isOpen ? 'Hide comments' : 'Show comments'}</button>
     }
     return null
   }
 
+handleToggleComments = () => {
+  this.props.handleToggle()
+}
+
+
   toggleComments(comments){
-    if(this.state.isShowComments){
+    if(this.props.isOpen){
       return (
         <ul>
           {
@@ -30,12 +33,6 @@ export default class CommentsList extends Component {
       )
     }
     return null
-  }
-
-  handleToggleComments = () => {
-    this.setState({
-      isShowComments : !this.state.isShowComments
-    })
   }
 
   render() {
@@ -51,3 +48,6 @@ export default class CommentsList extends Component {
     )
   }
 }
+
+
+export default toggleComponent(CommentsList);
