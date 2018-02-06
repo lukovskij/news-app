@@ -27,7 +27,6 @@ export default class CommentForm extends Component {
                     min: 20
                 }
             }
-
             if(this.state[formName].length > checkInputs[formName].min && this.state[formName].length < checkInputs[formName].max){
                return 'isGood'
             }else{
