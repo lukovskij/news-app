@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Comment from './Comment'
+import CommentForm from './CommentForm'
 
 import toggleComponent from '../decorators/toggleComponent'
 
@@ -44,6 +45,7 @@ handleToggleComments = () => {
         {
             this.toggleComments(this.props.comments)
         }
+        <CommentForm/>
       </section>
     )
   }
