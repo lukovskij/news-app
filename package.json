@@ -29,7 +29,12 @@
     "webpack-dev-server": "^2.0.0"
   },
   "dependencies": {
+    "css-loader": "^0.28.9",
     "react": "^15.5.0",
-    "react-dom": "^15.5.0"
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-dom": "^15.5.0",
+    "react-select": "^1.2.1",
+    "react-transition-group": "^2.2.1",
+    "style-loader": "^0.20.1"
   }
 }

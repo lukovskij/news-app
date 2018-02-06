@@ -1,8 +1,14 @@
 import React, {Component} from 'react'
+
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 import CommentsList from './CommentsList'
 
 // porop types
 import PropTypes from 'prop-types'
+
+
+import './transition-animate.css'
 
 function handleToggleArticle(props) {
   return function(){
@@ -34,7 +40,12 @@ function Article(props) {
           : 'Open'
       }
     </button>
-    {toggleArticle(article, props)}
+    <ReactCSSTransitionGroup
+          transitionName="article"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300}>
+      {toggleArticle(article, props)}
+    </ReactCSSTransitionGroup>
   </article>
 )
 }

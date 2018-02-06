@@ -14,6 +14,7 @@ import AccordionDecorator from '../decorators/accordionDecorator'
 */
 
 
+
 function ArticleList( props ) {
   const { articles } = props
 
@@ -22,20 +23,20 @@ function ArticleList( props ) {
   const articlesArray = articles.map(item => {
     return(
       <li key={item.id}>
-        <Article
-          article={item}
-          closeSiblingsAccordionses={props.closeSiblingsAccordionses(item.id)}
-          isOpen = {props.isOpen(item.id)}
-        />
+          <Article
+            article={item}
+            closeSiblingsAccordionses={props.closeSiblingsAccordionses(item.id)}
+            isOpen = {props.isOpen(item.id)}
+          />
       </li>
     )
   }
 )
 
   return (
-    <ul>
-      {articlesArray}
-    </ul>
+      <ul>
+        {articlesArray}
+      </ul>
   )
 }
 
