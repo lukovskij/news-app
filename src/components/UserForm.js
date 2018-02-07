@@ -20,6 +20,9 @@ export default class UserForm extends Component {
         this.setState({
             selectChange : selectOption
         })
+        console.log(selectOption)
+
+        this.props.onHandleChangeArticle(selectOption)
     }
 
     render(){
@@ -42,6 +45,7 @@ export default class UserForm extends Component {
                     value = {this.state.selectChange}
                     onChange = {this.handleSelectChange}
                     options = {options}
+                    multi
                 />
             </section>
         )
