@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import Article from './Article'
 
 // import PropTypes
@@ -15,10 +16,9 @@ import AccordionDecorator from '../decorators/accordionDecorator'
 
 
 
-function ArticleList( props ) {
+function ArticleList(props) {
   const { articles } = props
 
-  console.log(...props);
 
   const articlesArray = articles.map(item => {
     return(
@@ -41,7 +41,13 @@ function ArticleList( props ) {
 }
 
 ArticleList.propTypes = {
-  articles: PropTypes.array
+  articles: PropTypes.array.isRequired
 };
 
-export default AccordionDecorator(ArticleList)
+function mapStateToProps(state) {
+    return{
+        articles : state.articles
+    }
+}
+
+export default connect(mapStateToProps)(AccordionDecorator(ArticleList))

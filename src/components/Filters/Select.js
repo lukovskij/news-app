@@ -1,28 +1,29 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
+import PropsTypes from 'prop-types'
+import {filterItems} from '../../AC'
 
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 
-export default class UserForm extends Component {
+class SelectFilter extends Component {
 
-    state = {
-        name : '',
-        selectChange : null
+    static propTypes = {
+        articles : PropsTypes.array.isRequired
     }
 
-    changeText = (ev) => {
-        this.setState({
-            name : ev.target.value
-        })
+    state = {
+        selectChange : ''
     }
 
     handleSelectChange = (selectOption) => {
         this.setState({
             selectChange : selectOption
+        }, () => {
+            this.props.filterItem(this.state.selectChange.value)
         })
-        console.log(selectOption)
 
-        this.props.onHandleChangeArticle(selectOption)
+
     }
 
     render(){
@@ -38,17 +39,31 @@ export default class UserForm extends Component {
         return(
             <section>
                 <div style={{marginBottom : '20px'}}>
-                    Name : <input type="text" value={this.state.name} onChange={this.changeText}/>
+                   Select filter
                 </div>
                 <Select
                     name="articles-select"
                     value = {this.state.selectChange}
                     onChange = {this.handleSelectChange}
                     options = {options}
-                    multi
+
                 />
             </section>
         )
     }
 
 }
+
+function mapStateToProps(state) {
+    return {
+        articles : state.articles
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        filterItem : id => {
+            dispatch(filterItems(id))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SelectFilter)
