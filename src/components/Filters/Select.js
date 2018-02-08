@@ -12,22 +12,13 @@ class SelectFilter extends Component {
         articles : PropsTypes.array.isRequired
     }
 
-    state = {
-        selectChange : ''
-    }
 
     handleSelectChange = (selectOption) => {
-        this.setState({
-            selectChange : selectOption
-        }, () => {
-            this.props.filterItem(this.state.selectChange.value)
-        })
-
-
+        this.props.filterItems(selectOption.value)
     }
 
     render(){
-        const {articles} = this.props
+        const {articles, selected} = this.props
 
         const options = articles.map(item => {
             return {
@@ -43,7 +34,7 @@ class SelectFilter extends Component {
                 </div>
                 <Select
                     name="articles-select"
-                    value = {this.state.selectChange}
+                    value = {selected}
                     onChange = {this.handleSelectChange}
                     options = {options}
 
@@ -56,14 +47,15 @@ class SelectFilter extends Component {
 
 function mapStateToProps(state) {
     return {
-        articles : state.articles
+        articles : state.articles,
+        selected : state.filters.selected
     }
 }
-function mapDispatchToProps(dispatch) {
-    return {
-        filterItem : id => {
-            dispatch(filterItems(id))
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(SelectFilter)
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         filterItem : id => {
+//             dispatch(filterItems(id))
+//         }
+//     }
+// }
+export default connect(mapStateToProps, {filterItems})(SelectFilter)

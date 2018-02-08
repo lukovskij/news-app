@@ -17,9 +17,9 @@ class CommentsList extends Component {
     return null
   }
 
-handleToggleComments = () => {
-  this.props.handleToggle()
-}
+  handleToggleComments = () => {
+    this.props.handleToggle()
+  }
 
 
   toggleComments(comments){
