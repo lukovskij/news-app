@@ -1,4 +1,4 @@
-import { DELETE_ITEM } from '../constants'
+import { DELETE_ITEM, ADD_COMMENT } from '../constants'
 import {normalizedArticles as defaultArticles} from '../fixtures'
 
 let improvedArticles = defaultArticles.reduce((acc, nextProp) => {
@@ -13,7 +13,17 @@ export default  (articlesState = improvedArticles, action) => {
 
     switch (type) {
         case DELETE_ITEM : {
-            return articlesState.filter(item => item.id !== payload.id)
+
+            let arrForDelete = Object.keys(articlesState).map(item => {
+                return articlesState[item]
+            })
+
+            return arrForDelete.filter(item => item.id != payload.id)
+        }
+        case ADD_COMMENT : {
+            let newArray = articlesState
+            newArray[payload.commentDATA.parentId].comments.push(payload.commentDATA.id)
+            return newArray
         }
         default: {
             return articlesState

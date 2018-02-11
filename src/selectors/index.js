@@ -20,7 +20,9 @@ export const filteredArtilcesSelector = createSelector(articlesGetter, filtersGe
             return articles[item]
         })
     }else{
+
         return Object.keys(articles).map(item => articles[item])
+        
     }
 })
 

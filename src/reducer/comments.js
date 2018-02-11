@@ -1,4 +1,5 @@
 import { normalizedComments as commentsDefault } from '../fixtures'
+import {ADD_COMMENT} from '../constants'
 
 
 let normalizeComments = commentsDefault.reduce((acc, nextItem)=>{
@@ -10,5 +11,15 @@ let normalizeComments = commentsDefault.reduce((acc, nextItem)=>{
 },{})
 
 export default (comments = normalizeComments, action) => {
-    return comments
+    const { type, payload } = action
+
+    switch (type){
+        case ADD_COMMENT : {
+            comments[payload.commentDATA.id] = payload.commentDATA;
+            return comments
+        }
+        default : {
+            return comments
+        }
+    }
 }

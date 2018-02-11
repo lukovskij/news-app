@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux'
+import {addComment} from '../../AC'
 
-export default class CommentForm extends Component {
+class CommentForm extends Component {
     state = {
-        name : '',
+        user : '',
         text : ''
     }
 
@@ -16,7 +18,7 @@ export default class CommentForm extends Component {
 
     validationFunction = (formName) => {
             const checkInputs = {
-                name : {
+                user : {
                     max: 15,
                     min: 5
                 },
@@ -32,6 +34,12 @@ export default class CommentForm extends Component {
             }
     }
 
+    handleAddComment = () => {
+        let comentData = this.state
+        comentData.parentId = this.props.parentId
+        this.props.addCommentData(comentData)
+    }
+
     render(){
         return(
             // set state визиває рендер і тобіш всі функції будуть визиваться 
@@ -39,9 +47,9 @@ export default class CommentForm extends Component {
                 <div>Name</div>
                 <input 
                     type="text"
-                    value={this.state.name}
-                    onChange={this.handleTextForm('name')}
-                    className={this.validationFunction('name')}
+                    value={this.state.user}
+                    onChange={this.handleTextForm('user')}
+                    className={this.validationFunction('user')}
                 />
                 <div>
                     <div>Message</div>
@@ -51,7 +59,18 @@ export default class CommentForm extends Component {
                         className={this.validationFunction('text')}
                     />
                 </div>
+                <button onClick={this.handleAddComment}> Add Comment </button>
             </div>
         )
     }
 }
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addCommentData : (commentData) => {
+            dispatch(addComment(commentData))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CommentForm)

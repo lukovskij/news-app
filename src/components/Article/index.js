@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
-import {deleteArticle} from '../../AC'
+import {deleteArticle, addComment} from '../../AC'
 
 import CommentsList from '../CommentsList'
 
@@ -20,7 +20,7 @@ function toggleArticle(article, props) {
   if (props.isOpen) {
     return (<section>
       <p>{article.text}</p>
-      <CommentsList comments={article.comments}/>
+      <CommentsList parentId = {article.id} comments={article.comments}/>
     </section>)
   }
   return null
@@ -29,7 +29,8 @@ function toggleArticle(article, props) {
 function handleDeleteArticle(props,article) {
   return () => {
     console.log(deleteArticle)
-      props.deleteArticle(article.id)
+    console.log(article.id)
+      props.deleteArticleEl(article.id)
   }
 }
 
@@ -61,7 +62,7 @@ Article.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-      deleteArticle : (id) => {
+      deleteArticleEl : (id) => {
         dispatch(deleteArticle(id))
       }
     }

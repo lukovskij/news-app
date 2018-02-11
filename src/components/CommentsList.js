@@ -46,7 +46,7 @@ class CommentsList extends Component {
         {
             this.toggleComments(this.props.comments)
         }
-        <CommentForm/>
+        <CommentForm parentId={this.props.parentId}/>
       </section>
     )
   }
