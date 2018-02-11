@@ -8,11 +8,11 @@ export function deleteArticle(id) {
         }
     }
 }
-export function filterItems(id) {
+export function filterItems(selected) {
     return {
         type : FILTER_SELECT,
         payload: {
-            id
+            selected
         }
     }
 }

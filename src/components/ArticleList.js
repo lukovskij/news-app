@@ -22,6 +22,7 @@ function ArticleList(props) {
 
 
     const articlesArray = articles.map(item => {
+        
             return (
                 <li key={item.id}>
                     <Article

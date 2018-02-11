@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropsTypes from 'prop-types'
 import {filterItems} from '../../AC'
+import { selectorArticles } from '../../selectors'
 
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
@@ -14,7 +15,9 @@ class SelectFilter extends Component {
 
 
     handleSelectChange = (selectOption) => {
-        this.props.filterItems(selectOption.value)
+        console.log(selectOption);
+        
+        this.props.filterItems(selectOption)
     }
 
     render(){
@@ -37,7 +40,7 @@ class SelectFilter extends Component {
                     value = {selected}
                     onChange = {this.handleSelectChange}
                     options = {options}
-
+                    multi={true}
                 />
             </section>
         )
@@ -47,7 +50,7 @@ class SelectFilter extends Component {
 
 function mapStateToProps(state) {
     return {
-        articles : state.articles,
+        articles : selectorArticles(state),
         selected : state.filters.selected
     }
 }

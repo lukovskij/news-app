@@ -1,7 +1,10 @@
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
 import reducer from '../reducer'
+import logger from '../middlewares/logger'
 
-let store = createStore(reducer)
+let enhancer = applyMiddleware(logger)
+
+let store = createStore(reducer, {}, enhancer)
 
 //dev only
 window.appStore = store

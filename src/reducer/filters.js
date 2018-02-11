@@ -1,7 +1,7 @@
 import { FILTER_SELECT, FILTER_DATE_RANGE } from '../constants'
 
 const defaultState = {
-    selected : {},
+    selected : [],
     dateRange : {
         from : null,
         to : null
@@ -14,8 +14,11 @@ export default (filters = defaultState, action) => {
     switch (type) {
 
         case FILTER_SELECT : {
-            console.log(filters.selected)
-            return {selected: payload.id}
+             console.log(payload);
+             
+        let values = payload.selected.map(item => item.value)
+
+            return {selected: values}
         }
 
         default : {

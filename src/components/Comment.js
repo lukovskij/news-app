@@ -16,7 +16,7 @@ function Comment(props){
   )
 }
 
-function mapStateToProps (){
+function mapStateToProps () {
 
   let selectElement = commentsSelector()
 

@@ -1,8 +1,14 @@
 import { DELETE_ITEM } from '../constants'
 import {normalizedArticles as defaultArticles} from '../fixtures'
 
+let improvedArticles = defaultArticles.reduce((acc, nextProp) => {
+   acc[nextProp.id] = nextProp 
 
-export default  (articlesState = defaultArticles, action) => {
+   return acc;
+},{})
+
+
+export default  (articlesState = improvedArticles, action) => {
     const { type, payload } = action
 
     switch (type) {

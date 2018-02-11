@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import articles from '../reducer/articles';
 
 const filtersGetter = state => state.filters // getter for filters
 const articlesGetter = state => state.articles //getter for artilces 
@@ -14,24 +15,24 @@ const idGetter = (state, props) => props.comment
 export const filteredArtilcesSelector = createSelector(articlesGetter, filtersGetter, (articles, filters)=>{
     const { selected } = filters
 
-console.log('--- change fom selector');
-
-
-    const filteredArticles = articles.filter(item => {
-        if(selected != undefined){
-            return item.id == selected
-        }
-        return item
-    })
-
-    return filteredArticles.length === 0 ? articles : filteredArticles
+    if(selected.length != 0){
+        return selected.map(item => {
+            return articles[item]
+        })
+    }else{
+        return Object.keys(articles).map(item => articles[item])
+    }
 })
 
-export const commentsSelector = () => createSelector(commentsGetter, idGetter, (state, ownProps)=>{
-    console.log(state, ownProps)
+
+export const selectorArticles = createSelector(articlesGetter, (articles) => {
+    return Object.keys(articles).map(item => articles[item])
+})
+
+export const commentsSelector = () => createSelector(commentsGetter, idGetter, (state, ownProps) => {
 
     return state[ownProps]
-
+    
 })
 
 
