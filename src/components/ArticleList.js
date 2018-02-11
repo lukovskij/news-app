@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Article from './Article'
 
+import {filteredArtilcesSelector} from '../selectors'
+
 // import PropTypes
 import PropTypes from 'prop-types'
 
@@ -43,22 +45,11 @@ ArticleList.propTypes = {
     articles: PropTypes.array.isRequired
 };
 
-function mapStateToProps(state) {
 
-    const { articles, filters } = state
-    const { selected } = filters
 
-    const filteredArticles = articles.filter(item => {
-        if(selected != undefined) {
-            return item.id == selected
-        }
-        return item
-    })
-    console.log(filteredArticles)
 
-    return {
-        articles: filteredArticles.length === 0 ? articles : filteredArticles
+export default connect((state)=>{
+    return{
+        articles : filteredArtilcesSelector(state)
     }
-}
-
-export default connect(mapStateToProps)(AccordionDecorator(ArticleList))
+})(AccordionDecorator(ArticleList))

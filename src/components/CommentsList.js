@@ -28,7 +28,8 @@ class CommentsList extends Component {
         <ul>
           {
             comments
-            .map(item => <li key={item.id}><Comment comment={item}/></li>)
+            .map(item => {console.log(item) 
+              return (<li key={item}><Comment comment={item}/></li>)})
           }
         </ul>
       )
