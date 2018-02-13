@@ -4,7 +4,7 @@ import articles from '../reducer/articles';
 import { mapToArr } from '../helpers'
 
 const filtersGetter = state => state.filters // getter for filters
-const articlesGetter = state => state.articles //getter for artilces 
+const articlesGetter = state => state.articles.enties //getter for artilces
 
 const commentsGetter = state => state.comments
 const idGetter = (state, props) => props.comment

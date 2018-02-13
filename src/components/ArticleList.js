@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Article from './Article'
+import Loader from './Loader'
 
 import {filteredArtilcesSelector} from '../selectors'
 
@@ -22,12 +23,14 @@ import AccordionDecorator from '../decorators/accordionDecorator'
 class ArticleList extends Component {
 
     componentDidMount(){
-        this.props.loadAllArticles()
+        if(!this.props.loading, !this.props.loaded) this.props.loadAllArticles()
     }
 
     render() {
-        const {articles} = this.props
+        const {articles, loading} = this.props
 
+
+        if(loading) return <Loader></Loader>
 
         const articlesArray = articles.map(item => {
 
@@ -62,6 +65,8 @@ ArticleList.propTypes = {
 
 export default connect((state)=>{
     return{
-        articles : filteredArtilcesSelector(state)
+        articles : filteredArtilcesSelector(state),
+        loading : state.articles.loading,
+        loaded : state.articles.loaded
     }
 }, {loadAllArticles})(AccordionDecorator(ArticleList))

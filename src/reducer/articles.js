@@ -1,5 +1,5 @@
 import {Map, OrderedMap ,Record} from 'immutable'
-import { DELETE_ITEM, ADD_COMMENT, LOAD_ALL_ARTICLES } from '../constants'
+import { DELETE_ITEM, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS } from '../constants'
 
 import {arrToMap} from '../helpers'
 import comments from "./comments";
@@ -45,34 +45,35 @@ export default  (articlesState = defaultState, action) => {
 
     switch (type) {
 
-        case LOAD_ALL_ARTICLES : {
+        case LOAD_ALL_ARTICLES + SUCCESS : {
 
-            return arrToMap(action.response, articleShema)
+            return articlesState
+                .set('enties', arrToMap(action.response, articleShema))
+                .set('loading', false)
+                .set('loaded', true)
 
+        }
+
+        case LOAD_ALL_ARTICLES + START : {
+            return articlesState.set('loading', true)
         }
 
         case DELETE_ITEM : {
 
-            return articlesState.delete(payload.id)
+            return articlesState.deleteIn(['enties', payload.id])
             // articlesState  
            
         }
         case ADD_COMMENT : {
 
-            return articlesState.updateIn([action.payload.commentDATA.parentId, 'comments'], comments => comments.concat(action.randomId))
+            return articlesState.updateIn(
+                ['enties',action.payload.commentDATA.parentId, 'comments'],
+                comments => comments.concat(action.randomId)
+            )
 
             // цей метод використовується для зміни елемента в глубоких вложеностях
             // приймає ключ того шо міняєм другим аргументом шо саме і третя функція колбек яка робить зміну
 
-            let currentArticle = articlesState[action.payload.commentDATA.parentId];
-
-            return {
-                ...articlesState,
-                [action.payload.commentDATA.parentId] : {
-                    ...currentArticle,
-                    comments : (currentArticle.comments || []).concat(action.randomId)
-                }
-            }
         }
         default: {
             return articlesState
