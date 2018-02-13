@@ -23,7 +23,7 @@ import AccordionDecorator from '../decorators/accordionDecorator'
 class ArticleList extends Component {
 
     componentDidMount(){
-        if(!this.props.loading, !this.props.loaded) this.props.loadAllArticles()
+        if(!this.props.loading || !this.props.loaded) this.props.loadAllArticles()
     }
 
     render() {

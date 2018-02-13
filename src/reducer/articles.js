@@ -1,5 +1,5 @@
 import {Map, OrderedMap ,Record} from 'immutable'
-import { DELETE_ITEM, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS } from '../constants'
+import { DELETE_ITEM, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS, LOAD_ARTICLE } from '../constants'
 
 import {arrToMap} from '../helpers'
 import comments from "./comments";
@@ -8,7 +8,7 @@ import comments from "./comments";
 const RecordReducer = Record({
     loading : false,
     loaded : false,
-    enties : new OrderedMap({})
+    enties : new OrderedMap({}),
 })
 
 const defaultState = RecordReducer()
@@ -36,6 +36,7 @@ const articleShema = Record({
     text : '',
     title : '',
     id : '',
+    loading : false,
     comments : []
 })
 
@@ -75,6 +76,23 @@ export default  (articlesState = defaultState, action) => {
             // приймає ключ того шо міняєм другим аргументом шо саме і третя функція колбек яка робить зміну
 
         }
+
+        case LOAD_ARTICLE + START : {
+
+            console.log(payload.id)
+
+            //тут до загрузки сатара структура з loading яке ставим тру показуємо цим самим шо загружаєм статтю
+
+            return articlesState.setIn(['enties', payload.id, 'loading'], true)
+
+        }
+
+        case  LOAD_ARTICLE + SUCCESS : {
+            // тут коли загрузили ми ставим фолс з нашої схеми для статті і прасим по ній нашу відповідь з сервера
+
+            return articlesState.setIn(['enties', payload.id], new articleShema(payload.res))
+        }
+
         default: {
             return articlesState
         }
