@@ -1,12 +1,12 @@
-import {ADD_COMMENT} from '../constants'
-
 export default state => next => action =>{
-    const {type, payload} = action
+    const {type, payload, generateId} = action
 
-    switch(type){
-        case ADD_COMMENT : {
-            payload.commentDATA.id = Date.now()
-        }
-    }
-    next(action)
+    if(!generateId) return next(action)
+
+   next({
+       ...action,
+       randomId : Date.now()
+   })
+
+    
 }

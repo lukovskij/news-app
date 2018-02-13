@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import PropsTypes from 'prop-types'
 import {filterItems} from '../../AC'
-import { selectorArticles } from '../../selectors'
+import { mapToArr } from '../../helpers'
 
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
@@ -50,7 +50,7 @@ class SelectFilter extends Component {
 
 function mapStateToProps(state) {
     return {
-        articles : selectorArticles(state),
+        articles : mapToArr(state.articles),
         selected : state.filters.selected
     }
 }

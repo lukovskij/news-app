@@ -1,29 +1,35 @@
 import { DELETE_ITEM, ADD_COMMENT } from '../constants'
 import {normalizedArticles as defaultArticles} from '../fixtures'
 
-let improvedArticles = defaultArticles.reduce((acc, nextProp) => {
-   acc[nextProp.id] = nextProp 
-
-   return acc;
-},{})
+import {arrToMap} from '../helpers'
+import { addComment } from '../AC/index';
 
 
-export default  (articlesState = improvedArticles, action) => {
+
+export default  (articlesState = arrToMap(defaultArticles), action) => {
     const { type, payload } = action
 
     switch (type) {
         case DELETE_ITEM : {
 
-            let arrForDelete = Object.keys(articlesState).map(item => {
-                return articlesState[item]
-            })
+            let copyItem = {...articlesState}
+            delete copyItem[payload.id]
 
-            return arrForDelete.filter(item => item.id != payload.id)
+            return copyItem
+            // articlesState  
+           
         }
         case ADD_COMMENT : {
-            let newArray = articlesState
-            newArray[payload.commentDATA.parentId].comments.push(payload.commentDATA.id)
-            return newArray
+
+            let currentArticle = articlesState[action.payload.commentDATA.parentId];
+
+            return {
+                ...articlesState,
+                [action.payload.commentDATA.parentId] : {
+                    ...currentArticle,
+                    comments : (currentArticle.comments || []).concat(action.randomId)
+                }
+            }
         }
         default: {
             return articlesState

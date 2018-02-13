@@ -35,9 +35,13 @@ class CommentForm extends Component {
     }
 
     handleAddComment = () => {
-        let comentData = this.state
-        comentData.parentId = this.props.parentId
-        this.props.addCommentData(comentData)
+        let commentData = {...this.state, parentId : this.props.parentId}
+        this.props.addCommentData(commentData)
+
+        this.setState({
+            user : '',
+            text : ''
+        })
     }
 
     render(){

@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect'
 import articles from '../reducer/articles';
 
+import { mapToArr } from '../helpers'
+
 const filtersGetter = state => state.filters // getter for filters
 const articlesGetter = state => state.articles //getter for artilces 
 
@@ -19,17 +21,10 @@ export const filteredArtilcesSelector = createSelector(articlesGetter, filtersGe
         return selected.map(item => {
             return articles[item]
         })
-    }else{
-
-        return Object.keys(articles).map(item => articles[item])
-        
     }
+    return mapToArr(articles)
 })
 
-
-export const selectorArticles = createSelector(articlesGetter, (articles) => {
-    return Object.keys(articles).map(item => articles[item])
-})
 
 export const commentsSelector = () => createSelector(commentsGetter, idGetter, (state, ownProps) => {
 

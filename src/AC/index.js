@@ -22,6 +22,7 @@ export function addComment(commentDATA) {
         type : ADD_COMMENT,
         payload : {
             commentDATA
-        }
+        },
+        generateId : true
     }
 }

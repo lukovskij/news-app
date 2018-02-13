@@ -1,22 +1,22 @@
 import { normalizedComments as commentsDefault } from '../fixtures'
 import {ADD_COMMENT} from '../constants'
+import {arrToMap} from '../helpers'
 
 
-let normalizeComments = commentsDefault.reduce((acc, nextItem)=>{
-    acc[nextItem.id] = nextItem
 
-    //console.log(acc)
-
-    return acc
-},{})
-
-export default (comments = normalizeComments, action) => {
+export default (comments = arrToMap(commentsDefault), action) => {
     const { type, payload } = action
-
+    
     switch (type){
         case ADD_COMMENT : {
-            comments[payload.commentDATA.id] = payload.commentDATA;
-            return comments
+
+            return {
+                ...comments,
+                [action.randomId] : {
+                    user : payload.commentDATA.user,
+                    text : payload.commentDATA.text
+                }
+            }
         }
         default : {
             return comments
