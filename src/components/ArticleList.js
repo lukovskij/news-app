@@ -4,6 +4,8 @@ import Article from './Article'
 
 import {filteredArtilcesSelector} from '../selectors'
 
+import {loadAllArticles} from '../AC'
+
 // import PropTypes
 import PropTypes from 'prop-types'
 
@@ -17,30 +19,39 @@ import AccordionDecorator from '../decorators/accordionDecorator'
  */
 
 
-function ArticleList(props) {
-    const {articles} = props
+class ArticleList extends Component {
+
+    componentDidMount(){
+        this.props.loadAllArticles()
+    }
+
+    render() {
+        const {articles} = this.props
 
 
-    const articlesArray = articles.map(item => {
-        
-            return (
-                <li key={item.id}>
-                    <Article
-                        article={item}
-                        closeSiblingsAccordionses={props.closeSiblingsAccordionses(item.id)}
-                        isOpen={props.isOpen(item.id)}
-                    />
-                </li>
-            )
-        }
-    )
+        const articlesArray = articles.map(item => {
 
-    return (
-        <ul>
-            {articlesArray}
-        </ul>
-    )
+                return (
+                    <li key={item.id}>
+                        <Article
+                            article={item}
+                            closeSiblingsAccordionses={this.props.closeSiblingsAccordionses(item.id)}
+                            isOpen={this.props.isOpen(item.id)}
+                        />
+                    </li>
+                )
+            }
+        )
+
+        return (
+            <ul>
+                {articlesArray}
+            </ul>
+        )
+    }
+
 }
+
 
 ArticleList.propTypes = {
     articles: PropTypes.array.isRequired
@@ -53,4 +64,4 @@ export default connect((state)=>{
     return{
         articles : filteredArtilcesSelector(state)
     }
-})(AccordionDecorator(ArticleList))
+}, {loadAllArticles})(AccordionDecorator(ArticleList))

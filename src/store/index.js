@@ -2,8 +2,9 @@ import {createStore, applyMiddleware} from 'redux'
 import reducer from '../reducer'
 import logger from '../middlewares/logger'
 import keyGenerate from '../middlewares/keyGenerate'
+import apiCall from '../middlewares/api'
 
-let enhancer = applyMiddleware(keyGenerate,logger)
+let enhancer = applyMiddleware(apiCall, keyGenerate, logger)
 
 let store = createStore(reducer, {}, enhancer)
 

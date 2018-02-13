@@ -1,5 +1,5 @@
 // тут описуємо функції я породжують ешени
-import {DELETE_ITEM, FILTER_SELECT, ADD_COMMENT} from '../constants'
+import {DELETE_ITEM, FILTER_SELECT, ADD_COMMENT, LOAD_ALL_ARTICLES} from '../constants'
 export function deleteArticle(id) {
     return {
         type : DELETE_ITEM,
@@ -24,5 +24,12 @@ export function addComment(commentDATA) {
             commentDATA
         },
         generateId : true
+    }
+}
+
+export function loadAllArticles() {
+    return {
+        type : LOAD_ALL_ARTICLES,
+        callAPI : '/api/article'
     }
 }

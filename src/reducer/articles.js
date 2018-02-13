@@ -1,25 +1,68 @@
-import { DELETE_ITEM, ADD_COMMENT } from '../constants'
-import {normalizedArticles as defaultArticles} from '../fixtures'
+import {Map, OrderedMap ,Record} from 'immutable'
+import { DELETE_ITEM, ADD_COMMENT, LOAD_ALL_ARTICLES } from '../constants'
 
 import {arrToMap} from '../helpers'
-import { addComment } from '../AC/index';
+import comments from "./comments";
 
 
+const RecordReducer = Record({
+    loading : false,
+    loaded : false,
+    enties : new OrderedMap({})
+})
 
-export default  (articlesState = arrToMap(defaultArticles), action) => {
+const defaultState = RecordReducer()
+
+//так як ми не хочемо возиться з getters то опишемо це як Record (вище)
+// const defaultState = new Map({
+//     loading : false,
+//     loaded : false,
+//     enties : new OrderedMap({})
+//}) // опишемо початковий стейт абстрактно і не привязуємся до назв структур
+
+// якщо юзаєм імутабл то ми повиині задати початковий стейт через структуру яку юзаєм по замовчуванню.
+// Також упрощає роботу зі стором так як тепер ми не паримся про імутабельность стора за нас це робить імутбл жс
+// але так як ми обгораєм сам масив зі статтями то сама статья в нас не імутабельна то ми можемо заюзать FromJs
+// або краже завернемо кожну статтю в мап
+//метод Update обновляє то шо ми хочемо помінять
+
+// щоб зробити проще роботу з гетерами і ми в компонентах не відчули шо ми юзаєм чи імутб чи не імутбл то є фіча Record замість Map
+// опишемо структуру Record
+// і да! imutable обгортає в себе саме той об'єкт який передаємо внутрішні структури даних в цьому об'єкті треба обгортати самостійно
+
+//orderMap використовується для збереження порядку
+
+const articleShema = Record({
+    text : '',
+    title : '',
+    id : '',
+    comments : []
+})
+
+
+export default  (articlesState = defaultState, action) => {
     const { type, payload } = action
 
     switch (type) {
+
+        case LOAD_ALL_ARTICLES : {
+
+            return arrToMap(action.response, articleShema)
+
+        }
+
         case DELETE_ITEM : {
 
-            let copyItem = {...articlesState}
-            delete copyItem[payload.id]
-
-            return copyItem
+            return articlesState.delete(payload.id)
             // articlesState  
            
         }
         case ADD_COMMENT : {
+
+            return articlesState.updateIn([action.payload.commentDATA.parentId, 'comments'], comments => comments.concat(action.randomId))
+
+            // цей метод використовується для зміни елемента в глубоких вложеностях
+            // приймає ключ того шо міняєм другим аргументом шо саме і третя функція колбек яка робить зміну
 
             let currentArticle = articlesState[action.payload.commentDATA.parentId];
 

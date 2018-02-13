@@ -1,9 +1,8 @@
-export function arrToMap(arr){
-    return arr.reduce((curr, next) => {
-        curr[next.id] = next;
-        return curr
-    },{})
+import {OrderedMap, Map} from 'immutable'
+
+export function arrToMap(arr, Shema = Map){ // схема для статті зі стору
+    return arr.reduce((curr, next)  => curr.set(next.id, new Shema(next)), new OrderedMap({}))
 }
 export function mapToArr(obj){
-    return Object.keys(obj).map(item => obj[item])
+    return obj.valueSeq().toArray() // convert to array
 }
