@@ -1,5 +1,5 @@
 import {Map, OrderedMap ,Record} from 'immutable'
-import { DELETE_ITEM, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS, LOAD_ARTICLE } from '../constants'
+import { DELETE_ITEM, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS, LOAD_ARTICLE, LOAD_COMMENT } from '../constants'
 
 import {arrToMap} from '../helpers'
 import comments from "./comments";
@@ -8,7 +8,7 @@ import comments from "./comments";
 const RecordReducer = Record({
     loading : false,
     loaded : false,
-    enties : new OrderedMap({}),
+    enties : new OrderedMap({})
 })
 
 const defaultState = RecordReducer()
@@ -36,6 +36,8 @@ const articleShema = Record({
     text : '',
     title : '',
     id : '',
+    loadingComments : false,
+    loadedComments : false,
     loading : false,
     comments : []
 })
@@ -91,6 +93,16 @@ export default  (articlesState = defaultState, action) => {
             // тут коли загрузили ми ставим фолс з нашої схеми для статті і прасим по ній нашу відповідь з сервера
 
             return articlesState.setIn(['enties', payload.id], new articleShema(payload.res))
+        }
+
+        case LOAD_COMMENT + START : {
+            return articlesState.setIn(['enties', payload.articleId, 'loadingComments'], true)
+        }
+
+        case LOAD_COMMENT + SUCCESS : {
+            return articlesState
+                .setIn(['enties', payload.articleId, 'loadingComments'], false)
+                .setIn(['enties', payload.articleId, 'loadedComments'], true)
         }
 
         default: {

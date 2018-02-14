@@ -1,13 +1,21 @@
 import React, {Component} from 'react'
 import Comment from './Comment'
 import CommentForm from './CommentForm'
-
+import {loadArticleComment} from '../AC'
+import {connect} from 'react-redux'
 import toggleComponent from '../decorators/toggleComponent'
+import Loader from "./Loader";
 
 class CommentsList extends Component {
 
   static defaultProps = {
     comments : []
+  }
+
+  componentWillReceiveProps({isOpen, parentId, loadArticleComment, article}){
+      if (!this.props.isOpen && !article.loadingComments && !article.loadedComments) {
+          loadArticleComment(parentId)
+      }
   }
 
   showBtn(commentsList) {
@@ -23,6 +31,10 @@ class CommentsList extends Component {
 
 
   toggleComments(comments){
+      if(!this.props.isOpen) return null
+      if(this.props.article.loadingComments) return <Loader/>
+      if(!this.props.article.loadedComments) return null
+
     if(this.props.isOpen){
       return (
         <ul>
@@ -38,6 +50,7 @@ class CommentsList extends Component {
   }
 
   render() {
+
     return (
       <section>
         {
@@ -53,4 +66,4 @@ class CommentsList extends Component {
 }
 
 
-export default toggleComponent(CommentsList);
+export default connect(null, {loadArticleComment})(toggleComponent(CommentsList));

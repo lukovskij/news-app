@@ -6,7 +6,7 @@ import { mapToArr } from '../helpers'
 const filtersGetter = state => state.filters // getter for filters
 const articlesGetter = state => state.articles.enties //getter for artilces
 
-const commentsGetter = state => state.comments
+const commentsGetter = state => state.comments.entities
 const idGetter = (state, props) => props.comment
 
 // it is simple functions selectors(getters)
@@ -17,7 +17,7 @@ const idGetter = (state, props) => props.comment
 export const filteredArtilcesSelector = createSelector(articlesGetter, filtersGetter, (articles, filters)=>{
     const { selected } = filters
 
-    if(selected.length != 0){
+    if(selected.length !== 0){
         return selected.map(item => {
             return articles[item]
         })
@@ -26,9 +26,8 @@ export const filteredArtilcesSelector = createSelector(articlesGetter, filtersGe
 })
 
 
-export const commentsSelector = () => createSelector(commentsGetter, idGetter, (state, ownProps) => {
-
-    return state[ownProps]
+export const commentsSelector = () => createSelector(commentsGetter, idGetter, (comments, id) => {
+    return comments.get(id)
     
 })
 

@@ -34,7 +34,7 @@ class Article extends Component {
         if (isOpen) {
             return (<section>
                 <p>{article.text}</p>
-                <CommentsList parentId = {article.id} comments={article.comments}/>
+                <CommentsList article={article} parentId = {article.id} comments={article.comments}/>
             </section>)
         }
         return null

@@ -1,5 +1,5 @@
 // тут описуємо функції я породжують ешени
-import {DELETE_ITEM, FILTER_SELECT, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, SUCCESS, FAIL} from '../constants'
+import {DELETE_ITEM, FILTER_SELECT, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, SUCCESS, FAIL, LOAD_COMMENT} from '../constants'
 export function deleteArticle(id) {
     return {
         type : DELETE_ITEM,
@@ -24,6 +24,28 @@ export function addComment(commentDATA) {
             commentDATA
         },
         generateId : true
+    }
+}
+
+export function loadArticleComment(articleId) {
+    return (dispatch) => {
+        dispatch({
+            type : LOAD_COMMENT + START,
+            payload : {
+                articleId
+            }
+        }) // показуємо початок загрузки комента
+
+        setTimeout(()=>{
+        fetch(`/api/comment?article=${articleId}`)
+            .then(res =>res.json())
+            .then(res => dispatch({
+                type : LOAD_COMMENT + SUCCESS,
+                payload : {
+                    res, articleId
+                }
+            }))
+        }, 2000)
     }
 }
 

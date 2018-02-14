@@ -6,6 +6,8 @@ export const LOAD_ALL_ARTICLES = 'LOAD_ALL_ARTICLES'
 
 export const LOAD_ARTICLE = 'LOAD_ARTICLE'
 
+export const LOAD_COMMENT = 'LOAD_COMMENT'
+
 export const FILTER_SELECT = 'FILTER_SELECT'
 
 export const FILTER_DATE_RANGE = 'FILTER_DATE_RANGE'
