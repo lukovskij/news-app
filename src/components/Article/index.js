@@ -21,9 +21,9 @@ class Article extends Component {
     }
 
 
-    componentWillReceiveProps({isOpen, loadArticle, article}){ // вішаєм на цей метод бо дікларатіний підіхід і більше гбкий ніж на клік
-
-        if(isOpen && !article.text && !article.loading) loadArticle(article.id)
+    componentDidMount(){ // вішаєм на цей метод бо дікларатіний підіхід і більше гбкий ніж на клік
+        const {article, id} = this.props
+        this.props.loadArticle(id)
     }
 
 
@@ -89,4 +89,6 @@ function mapDispatchToProps(dispatch) {
         }
     }
 }
-export default connect(null,mapDispatchToProps)(Article)
+export default connect((state, ownProps) => ({
+    article : state.articles.enties.get(ownProps.id)
+}),mapDispatchToProps)(Article)

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Article from './Article'
 import Loader from './Loader'
+import {Route, NavLink} from 'react-router-dom'
 
 import {filteredArtilcesSelector} from '../selectors'
 
@@ -36,11 +37,14 @@ class ArticleList extends Component {
 
                 return (
                     <li key={item.id}>
-                        <Article
-                            article={item}
-                            closeSiblingsAccordionses={this.props.closeSiblingsAccordionses(item.id)}
-                            isOpen={this.props.isOpen(item.id)}
-                        />
+                        <NavLink to={`/articles/${item.id}`} activeStyle={{'color' : 'red'}}>
+                            {item.title}
+                        </NavLink>
+                        {/*<Article*/}
+                            {/*article={item}*/}
+                            {/*closeSiblingsAccordionses={this.props.closeSiblingsAccordionses(item.id)}*/}
+                            {/*isOpen={this.props.isOpen(item.id)}*/}
+                        {/*/>*/}
                     </li>
                 )
             }
