@@ -1,5 +1,5 @@
 import {OrderedMap,Record} from 'immutable'
-import {ADD_COMMENT, LOAD_COMMENT, SUCCESS} from '../constants'
+import {ADD_COMMENT, LOAD_COMMENT, SUCCESS, LOAD_ALL_COMMENTS, START} from '../constants'
 import {arrToMap} from '../helpers'
 
 
@@ -18,7 +18,10 @@ const commentRecord = Record({
 
 // (2)
 const ReducerState = Record({
-    entities : new OrderedMap({})
+    entities : new OrderedMap({}),
+    loadingAllComments : false,
+    loadedAllComments : false,
+    totalElements : ''
 })// форма редьюсера для комента типу стандартна початкова
 
 const defaultState = new ReducerState()
@@ -39,8 +42,23 @@ export default (comments = defaultState, action) => {
             return comments.update('entities', entities => entities.merge(arrToMap(payload.res, commentRecord)))
         }
 
+        case LOAD_ALL_COMMENTS + START : {
+            return comments.setIn(['loadingAllComments'], true)
+        }
+
+        case  LOAD_ALL_COMMENTS + SUCCESS : {
+            console.log(payload.res.records)
+            return comments
+                .setIn(['entities'], arrToMap(payload.res.records, commentRecord))
+                .setIn(['totalElements'], payload.res.total)
+                .setIn(['loadingAllComments'], false)
+                .setIn(['loadedAllComments'], false)
+        }
+
         default : {
+
            return  comments
+
         }
     }
 }

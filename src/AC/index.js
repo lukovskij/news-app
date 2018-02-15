@@ -1,5 +1,11 @@
 // тут описуємо функції я породжують ешени
-import {DELETE_ITEM, FILTER_SELECT, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, SUCCESS, FAIL, LOAD_COMMENT} from '../constants'
+import {DELETE_ITEM,
+    FILTER_SELECT,
+    ADD_COMMENT,
+    LOAD_ALL_ARTICLES,
+    LOAD_ARTICLE, START, SUCCESS, FAIL,
+    LOAD_COMMENT,
+    LOAD_ALL_COMMENTS} from '../constants'
 export function deleteArticle(id) {
     return {
         type : DELETE_ITEM,
@@ -56,6 +62,26 @@ export function loadAllArticles() {
     }
 }
 
+// load all comments
+
+export function loadAllComments(col = 5, offset = 5) {
+    return (dispatch) => {
+        dispatch({
+            type : LOAD_ALL_COMMENTS + START
+        })
+
+        setTimeout(() => {
+        fetch(`/api/comment?limit=${col}&offset=${offset}`)
+            .then(res => res.json())
+            .then(res => dispatch({
+                type : LOAD_ALL_COMMENTS +  SUCCESS,
+                payload : {
+                    res
+                }
+            }))
+        }, 2000)
+    }
+}
 
 // пишем по чанку
 export function loadArticle(id) {
